@@ -1,6 +1,6 @@
 # Docusaurus Blog
 
-This project is based on the [dev-blog-template](https://github.com/Developer-Akademie-DevSecOpsKurs/dev-blog-template) and set up as my personal learning journal / portfolio site.
+This project is based on the [dev-blog-template](https://github.com/Developer-Akademie-DevSecOpsKurs/dev-blog-template) and set up as my personal learning journal and portfolio site.
 
 ## Table of Contents
 
@@ -23,7 +23,7 @@ This site uses Docusaurus and started from the DevSecOps course template. Below 
 
 In `docusaurus.config.ts`, I changed:
 
-- `title`: now shows this is my learning journal / portfolio
+- `title`: now shows this is my learning journal and portfolio
 - `tagline`: short subtitle describing the site
 - `url`: default value now matches my GitHub username
 
@@ -56,7 +56,7 @@ const templateRepositoryUrl = process.env.TEMPLATE_REPOSITORY_URL
 
 ### Footer
 
-- **Docs** column: added a link to `/docs/projects`
+- **Docs** column: added a link to `/docs/projects/overview`
 - **Community** column: removed
 - **More** column: GitHub link points to my repo, added a "Template" link to the original template
 - `copyright`: personalized, extended with "extended from the developer-akademie-starter"
