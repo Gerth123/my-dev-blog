@@ -7,6 +7,8 @@ dotenvconfig();
 
 /* TODO: change to read configuration from environment */
 const blogEnabled = Boolean(process.env.BLOG_ENABLED === 'true')
+const gitRepositoryUrl = process.env.GIT_REPOSITORY_URL
+const templateRepositoryUrl = process.env.TEMPLATE_REPOSITORY_URL
 
 const config: Config = {
   title: 'Robins Dev Blog',
@@ -46,7 +48,7 @@ const config: Config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            process.env.GIT_REPOSITORY_URL
+            gitRepositoryUrl
         },
         blog: blogEnabled ? 
           {
@@ -58,7 +60,7 @@ const config: Config = {
             // Please change this to your repo.
             // Remove this to remove the "edit this page" links.
             editUrl:
-              process.env.GIT_REPOSITORY_URL,
+              gitRepositoryUrl,
             // Useful options to enforce blogging best practices
             onInlineTags: 'warn',
             onInlineAuthors: 'warn',
@@ -76,7 +78,7 @@ const config: Config = {
     // Replace with your project's social card
     image: 'img/docusaurus-social-card.jpg',
     navbar: {
-      title: 'My Site',
+      title: 'Robins Dev Blog',
       logo: {
         alt: 'My Site Logo',
         src: 'img/logo.svg',
@@ -89,7 +91,7 @@ const config: Config = {
           label: 'Docs',
         },
         {
-          href: process.env.GIT_REPOSITORY_URL,
+          href: gitRepositoryUrl,
           label: 'Github',
           position: 'right',
         },
@@ -105,23 +107,11 @@ const config: Config = {
               label: 'Tutorial',
               to: '/docs/guides/intro',
             },
-          ],
-        },
-        {
-          title: 'Community',
-          items: [
             {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+              label: 'Projects',
+              to: '/docs/projects/overview',
             },
-            {
-              label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
-            },
-            {
-              label: 'Twitter',
-              href: 'https://twitter.com/docusaurus',
-            },
+
           ],
         },
         {
@@ -129,12 +119,16 @@ const config: Config = {
           items: [
             {
               label: 'GitHub',
-              href: 'https://github.com/facebook/docusaurus',
-            }
+              href: gitRepositoryUrl,
+            },
+            {
+              label: 'Template',
+              href: templateRepositoryUrl,
+            },
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Sven Patrick Meier (spmse). Built with Docusaurus and 💚.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Robin Michael Gerth (Gerth123). Extended from the developer-akademie-starter. Built with 💚`,
     },
     prism: {
       theme: prismThemes.github,
