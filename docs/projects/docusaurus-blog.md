@@ -51,7 +51,7 @@ const templateRepositoryUrl = process.env.TEMPLATE_REPOSITORY_URL
 ### Navbar
 
 - `title`: updated to match the site name
-- `logo`: kept the default logo (or: replaced with my own, alt text updated)
+- `logo`: kept the default logo 
 - GitHub item now uses `gitRepositoryUrl` instead of a hardcoded link
 
 ### Footer
