@@ -128,7 +128,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Robin Michael Gerth (Gerth123). Extended from the developer-akademie-starter. Built with 💚`,
+      copyright: `Copyright © ${new Date().getFullYear()} Robin Michael Gerth (Gerth123). Extended from the developer-akademie-starter. Built with Docusaurus and 💚`,
     },
     prism: {
       theme: prismThemes.github,
