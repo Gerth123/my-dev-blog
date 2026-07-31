@@ -160,7 +160,7 @@ if (blogEnabled) {
   (config.themeConfig.navbar as any).items.push({to: '/blog', label: 'Blog', position: 'left'});
   (
     config.themeConfig.footer as any
-  ).links[2].items.push({
+  ).links[1].items.push({
     to: '/blog',
     label: 'Blog',
   });
