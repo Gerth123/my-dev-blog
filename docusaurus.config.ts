@@ -7,8 +7,13 @@ dotenvconfig();
 
 /* TODO: change to read configuration from environment */
 const blogEnabled = Boolean(process.env.BLOG_ENABLED === 'true')
-const gitRepositoryUrl = process.env.GIT_REPOSITORY_URL
-const templateRepositoryUrl = process.env.TEMPLATE_REPOSITORY_URL
+const gitRepositoryUrl =
+  process.env.GIT_REPOSITORY_URL ??
+  'https://github.com/Gerth123/my-dev-blog';
+
+const templateRepositoryUrl =
+  process.env.TEMPLATE_REPOSITORY_URL ??
+  'https://github.com/Developer-Akademie-DevSecOpsKurs/dev-blog-template';
 
 const config: Config = {
   title: 'Robins Dev Blog',

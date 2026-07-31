@@ -80,9 +80,13 @@ I added the following public configuration values to `example.env`:
 The values are read in `docusaurus.config.ts`. A fallback URL is used when an environment variable is not available:
 
 ```typescript
-const gitRepositoryUrl = process.env.GIT_REPOSITORY_URL;
+const gitRepositoryUrl =
+  process.env.GIT_REPOSITORY_URL ??
+  'https://github.com/Gerth123/my-dev-blog';
 
-const templateRepositoryUrl = process.env.TEMPLATE_REPOSITORY_URL;
+const templateRepositoryUrl =
+  process.env.TEMPLATE_REPOSITORY_URL ??
+  'https://github.com/Developer-Akademie-DevSecOpsKurs/dev-blog-template';
 ```
 
 The repository URL is used for:
