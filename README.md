@@ -65,10 +65,12 @@ The repository is organized as follows:
 
 - `blog/`: Contains markdown files for blog posts. Blog-related metadata is automatically picked up by the Docusaurus configuration.
 - `docs/`: Contains markdown files for documentation. These files are referenced in `sidebars.ts` to define the sidebar structure.
+- `docs/projects/docusaurus-blog.md`: Documents the setup and configuration of this Docusaurus blog project.
 - `src/`: Contains custom React components, CSS, and JavaScript for additional functionality or theming.
 - `static/`: Stores static assets (e.g., images, icons) served directly without processing.
 - `sidebars.ts`: Configures the structure of sidebars in the documentation section.
 - `docusaurus.config.ts`: Main configuration file for customizing and managing Docusaurus behavior.
+- `pnpm-workspace.yaml`: Contains the pnpm workspace configuration.
 - `build/`: Generated after running the `pnpm build` command. Contains the static website files ready for deployment.
 
 New content can be added as follows:
