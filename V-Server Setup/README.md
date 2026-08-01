@@ -233,6 +233,6 @@ NGINX was reloaded (see configuration above) so the built site is served as the 
 
 ## 6. Server Details
 
-- **Server IP:** `<SERVER_IP>`
+- **Server IP:** `116.203.27.31`
 - **Web server:** NGINX, serving the built Docusaurus site on port 80
 - **Authentication:** SSH key only, password login disabled
