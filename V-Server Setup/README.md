@@ -18,8 +18,7 @@ import GithubLinkAdmonition from '@site/src/components/GithubLinkAdmonition';
 <GithubLinkAdmonition
   link="https://github.com/Gerth123/my-dev-blog/tree/main"
   title="GitHub Repository"
-  type="tip"
->
+  type="tip">
   View the full project history and this documentation in this repository.
 </GithubLinkAdmonition>
 
