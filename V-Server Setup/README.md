@@ -13,14 +13,7 @@ This guide describes how to set up and secure a fresh Ubuntu VServer: configurin
 - [Testing](#testing)
 - [Further References](#further-references)
 
-import GithubLinkAdmonition from '@site/src/components/GithubLinkAdmonition';
-
-<GithubLinkAdmonition
-  link="https://github.com/Gerth123/my-dev-blog/tree/main"
-  title="GitHub Repository"
-  type="tip">
-  View the full project history and this documentation in this repository.
-</GithubLinkAdmonition>
+> **GitHub Repository:** View the full project history and this documentation at [github.com/Gerth123/my-dev-blog](https://github.com/Gerth123/my-dev-blog/tree/main).
 
 ## Quickstart
 
