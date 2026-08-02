@@ -65,10 +65,12 @@ The repository is organized as follows:
 
 - `blog/`: Contains markdown files for blog posts. Blog-related metadata is automatically picked up by the Docusaurus configuration.
 - `docs/`: Contains markdown files for documentation. These files are referenced in `sidebars.ts` to define the sidebar structure.
+- `docs/projects/docusaurus-blog.md`: Documents the setup and configuration of this Docusaurus blog project.
 - `src/`: Contains custom React components, CSS, and JavaScript for additional functionality or theming.
 - `static/`: Stores static assets (e.g., images, icons) served directly without processing.
 - `sidebars.ts`: Configures the structure of sidebars in the documentation section.
 - `docusaurus.config.ts`: Main configuration file for customizing and managing Docusaurus behavior.
+- `pnpm-workspace.yaml`: Contains the pnpm workspace configuration.
 - `build/`: Generated after running the `pnpm build` command. Contains the static website files ready for deployment.
 
 New content can be added as follows:
@@ -97,9 +99,3 @@ If you are using GitHub pages for hosting, this command is a convenient way to b
 ### Deploying using NGINX
 
 To deploy the site using NGINX and Docker, follow this [guide](./docs/guides/deploy-docusaurus-with-docker-and-nginx.md)
-
-### Contributing
-
-Currently, this project does not seek collaborators, but we're open to suggestions regarding enhancements or guides to prepare.
-Open an issue with a detailed description on the change you suggest and elaborate why it's benefitial for the project and vast majority.
-If accepted in the discussion, open a pull request from your fork of this repository to contribute your changes.
