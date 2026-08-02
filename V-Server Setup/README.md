@@ -1,238 +1,219 @@
-# V-Server Setup
+# VServer Setup
 
-This document describes how the V-Server for this project was set up, including SSH key authentication, NGINX installation and configuration, Git configuration, and deployment of the Docusaurus blog.
+This guide describes how to set up and secure a fresh Ubuntu VServer: configuring SSH key authentication, disabling password login, installing and configuring NGINX to serve a static site, and connecting the server to GitHub.
 
 ## Table of Contents
 
-- [1. Server Access via SSH](#1-server-access-via-ssh)
-- [2. Disabling Password Login](#2-disabling-password-login)
-- [3. Installing and Configuring NGINX](#3-installing-and-configuring-nginx)
-- [4. Git Configuration on the Server](#4-git-configuration-on-the-server)
-- [5. Deploying the Docusaurus Blog](#5-deploying-the-docusaurus-blog)
-- [6. Server Details](#6-server-details)
+- [Quickstart](#quickstart)
+- [Project Goal](#project-goal)
+- [SSH Key Authentication](#ssh-key-authentication)
+- [Disabling Password Login](#disabling-password-login)
+- [NGINX Installation and Configuration](#nginx-installation-and-configuration)
+- [Git Configuration on the Server](#git-configuration-on-the-server)
+- [Testing](#testing)
+- [Further References](#further-references)
 
-## 1. Server Access via SSH
+import GithubLinkAdmonition from '@site/src/components/GithubLinkAdmonition';
 
-An SSH key pair was generated locally to authenticate with the server:
+<GithubLinkAdmonition
+  link="https://github.com/Gerth123/my-dev-blog/tree/main"
+  title="GitHub Repository"
+  type="tip"
+>
+  View the full project history and this documentation in this repository.
+</GithubLinkAdmonition>
 
-```bash
-ssh-keygen -t ed25519
-```
+## Quickstart
 
-The public key was then copied to the server's `authorized_keys` file:
+1. Generate an SSH key pair locally.
+2. Copy the public key to the server and confirm login works with the private key.
+3. Disable password login on the server.
+4. Install NGINX and configure it to serve a static site.
+5. Configure Git on the server and connect it to GitHub via SSH.
 
-```bash
-type C:\Users\robin\.ssh\da\blog_ed25519.pub | ssh root@<SERVER_IP> "cat >> .ssh/authorized_keys"
-```
+## Project Goal
 
-The connection was tested using the private key before proceeding further:
+The goal of this project was to set up a Ubuntu VServer from scratch and secure it against attacks based on passwords, using SSH key authentication only. NGINX was installed and configured to serve a simple static page on the server, and Git was configured so the server can interact directly with GitHub repositories.
 
-```bash
-ssh -i ~/.ssh/da/blog_ed25519 robin-gerth@<SERVER_IP>
-```
+## SSH Key Authentication
 
-For convenience, an alias/function was set up locally to simplify connecting to the server. In WSL/bash:
+1. Generate an SSH key pair locally:
 
-```bash
-alias blog_connect="ssh -o StrictHostKeyChecking=no -i ~/.ssh/blog_ed25519 robin-gerth@<SERVER_IP>"
-```
+   ```bash
+   ssh-keygen -t ed25519
+   ```
 
-This was made permanent by adding it to `~/.bashrc`.
+2. Copy the public key to the server so it can be added to the target user's authorized keys:
 
-## 2. Disabling Password Login
+   ```bash
+   type C:\Users\robin\.ssh\da\blog_ed25519.pub | ssh root@<SERVER_IP> "cat >> .ssh/authorized_keys"
+   ```
 
-Before disabling password authentication, a successful login using the SSH key was confirmed.
+3. Test login using the private key to confirm that authentication using the key works, before making any further changes:
 
-The SSH daemon configuration was edited:
+   ```bash
+   ssh -i ~/.ssh/da/blog_ed25519 robin-gerth@<SERVER_IP>
+   ```
 
-```bash
-sudo nano /etc/ssh/sshd_config
-```
+4. Optional: create a shell alias locally to simplify future connections:
 
-The following line was changed:
+   ```bash
+   alias blog_connect="ssh -o StrictHostKeyChecking=no -i ~/.ssh/blog_ed25519 robin-gerth@<SERVER_IP>"
+   ```
 
-```
-#PasswordAuthentication yes
-```
+## Disabling Password Login
 
-to:
+Only disable password login after confirming that SSH key login works.
 
-```
-PasswordAuthentication no
-```
+1. Edit the SSH daemon configuration:
 
-The SSH service was then restarted to apply the change:
+   ```bash
+   sudo nano /etc/ssh/sshd_config
+   ```
 
-```bash
-sudo systemctl restart ssh.service
-```
+2. Change the following line:
 
-**Verification:** After logging out, an attempt to connect while forcing public key authentication off was made to confirm that password-based login is fully disabled:
+   ```
+   #PasswordAuthentication yes
+   ```
 
-```bash
-ssh -o PubkeyAuthentication=no robin-gerth@<SERVER_IP>
-```
+   to:
 
-Result: `Permission denied (publickey)` — confirming that only key-based authentication is possible.
+   ```
+   PasswordAuthentication no
+   ```
 
-## 3. Installing and Configuring NGINX
+3. Restart the SSH service to apply the change:
 
-The package list was updated and NGINX was installed:
+   ```bash
+   sudo systemctl restart ssh.service
+   ```
 
-```bash
-sudo apt update
-sudo apt install nginx -y
-```
+4. Verify the change by attempting to connect with public key authentication explicitly disabled:
 
-Service status was verified:
+   ```bash
+   ssh -o PubkeyAuthentication=no robin-gerth@<SERVER_IP>
+   ```
 
-```bash
-systemctl status nginx.service
-```
+   This should result in `Permission denied (publickey)`, confirming that only SSH keys can be used to log in.
 
-The default NGINX welcome page was confirmed by visiting the server's IP address in a browser.
+## NGINX Installation and Configuration
 
-### Initial test configuration (alternative page)
+1. Update the package list and install NGINX:
 
-As an initial test, an alternative site was set up on a separate port (`8081`) to confirm that custom NGINX configurations work as expected:
+   ```bash
+   sudo apt update
+   sudo apt install nginx -y
+   ```
 
-```bash
-sudo mkdir /var/www/alternatives
-sudo touch /var/www/alternatives/alternate-index.html
-```
+2. Check that the service is running:
 
-A new server block was created:
+   ```bash
+   systemctl status nginx.service
+   ```
 
-```bash
-sudo nano /etc/nginx/sites-enabled/alternatives
-```
+3. Visit the server's IP address in a browser to confirm the default NGINX welcome page is served on port 80.
 
-```nginx
-server {
-        listen 8081;
-        listen [::]:8081;
+4. Create a directory and a static HTML page for an alternative site:
 
-        root /var/www/alternatives;
-        index alternate-index.html;
+   ```bash
+   sudo mkdir /var/www/alternatives
+   sudo nano /var/www/alternatives/alternate-index.html
+   ```
 
-        location / {
-                try_files $uri $uri/ =404;
-        }
-}
-```
+5. Create a new server block to serve this page on a separate port (`8081`), so the default NGINX page on port 80 remains untouched:
 
-A simple HTML page was added to `alternate-index.html`, and NGINX was reloaded:
+   ```bash
+   sudo nano /etc/nginx/sites-enabled/alternatives
+   ```
 
-```bash
-sudo nginx -t
-sudo systemctl restart nginx
-```
+   ```nginx
+   server {
+           listen 8081;
+           listen [::]:8081;
 
-Visiting `<SERVER_IP>:8081` confirmed the custom page was served correctly.
+           root /var/www/alternatives;
+           index alternate-index.html;
 
-**Note:** This test configuration was later commented out (rather than deleted) in `/etc/nginx/sites-enabled/alternatives` once the final blog deployment (below) was in place, so it is kept for reference but is no longer active.
+           location / {
+                   try_files $uri $uri/ =404;
+           }
+   }
+   ```
 
-### Final configuration (Docusaurus blog as the site's index)
+6. Validate the configuration and reload NGINX:
 
-For the actual project deliverable, the default NGINX server block (port 80) was updated to serve the built Docusaurus blog instead of the default NGINX page:
+   ```bash
+   sudo nginx -t
+   sudo systemctl reload nginx
+   ```
 
-```bash
-sudo nano /etc/nginx/sites-available/default
-```
+7. Visit `<SERVER_IP>:8081` in a browser to confirm the alternative page is served correctly, while `<SERVER_IP>` on port 80 still shows the default NGINX page.
 
-```nginx
-server {
-        listen 80 default_server;
-        listen [::]:80 default_server;
+## Git Configuration on the Server
 
-        root /var/www/my-dev-blog;
-        index index.html;
+1. Configure Git with your name and email, matching your GitHub account:
 
-        server_name _;
+   ```bash
+   git config --global user.name "<your-name>"
+   git config --global user.email "<github-email>"
+   ```
 
-        location / {
-                try_files $uri $uri/ /index.html;
-        }
-}
-```
+2. Generate a dedicated SSH key pair on the server for GitHub access, separate from the key used to log into the server itself:
 
-The configuration was validated before reloading:
+   ```bash
+   ssh-keygen -t ed25519 -C "<github-email>" -f ~/.ssh/github_ed25519
+   ```
 
-```bash
-sudo nginx -t
-sudo systemctl reload nginx
-```
+3. Display and copy the public key:
 
-## 4. Git Configuration on the Server
+   ```bash
+   cat ~/.ssh/github_ed25519.pub
+   ```
 
-Git was configured with the same identity used on GitHub:
+4. Add the public key to your GitHub account under **Settings > SSH and GPG keys > New SSH key**.
 
-```bash
-git config --global user.name "Gerth123"
-git config --global user.email "<github-email>"
-```
+5. Add an SSH config entry on the server so Git automatically uses this key when talking to GitHub:
 
-A dedicated SSH key pair was generated on the server to interact with GitHub (separate from the key used to log into the server itself):
+   ```bash
+   nano ~/.ssh/config
+   ```
 
-```bash
-ssh-keygen -t ed25519 -C "<github-email>" -f ~/.ssh/github_ed25519
-cat ~/.ssh/github_ed25519.pub
-```
+   ```
+   Host github.com
+       HostName github.com
+       User git
+       IdentityFile ~/.ssh/github_ed25519
+   ```
 
-The resulting public key was added to GitHub under **Settings → SSH and GPG keys → New SSH key**.
+   ```bash
+   chmod 600 ~/.ssh/config
+   ```
 
-An SSH config entry was added on the server so Git automatically uses the correct key when talking to GitHub:
+6. Verify the connection:
 
-```bash
-nano ~/.ssh/config
-```
+   ```bash
+   ssh -T git@github.com
+   ```
 
-```
-Host github.com
-    HostName github.com
-    User git
-    IdentityFile ~/.ssh/github_ed25519
-```
+## Testing
 
-```bash
-chmod 600 ~/.ssh/config
-```
+Before submitting, the following was verified:
 
-The connection was verified:
+- Login with the SSH key succeeds.
+- Login with a username/password combination fails (`Permission denied (publickey)`).
+- The NGINX configuration passes validation before every reload (`nginx -t`).
+- The server's IP address on port 80 shows the default NGINX welcome page.
+- The server's IP address on port 8081 shows the custom static page.
+- A connection to GitHub from the server via SSH succeeds (`ssh -T git@github.com`).
 
-```bash
-ssh -T git@github.com
-```
+## Further References
 
-## 5. Deploying the Docusaurus Blog
+- [NGINX Beginner's Guide](https://nginx.org/en/docs/beginners_guide.html)
+- [OpenSSH sshd_config Manual](https://man.openbsd.org/sshd_config)
+- [GitHub SSH Documentation](https://docs.github.com/en/authentication/connecting-to-github-with-ssh)
 
-The repository was cloned onto the server:
+## Server Details
 
-```bash
-git clone git@github.com:Gerth123/my-dev-blog.git
-cd my-dev-blog
-```
-
-Dependencies were installed and the site was built using `pnpm`:
-
-```bash
-pnpm install
-pnpm build
-```
-
-This produces a static site in the `build/` directory. The build output was copied to a dedicated web root, separate from the Git repository itself:
-
-```bash
-sudo mkdir -p /var/www/my-dev-blog
-sudo cp -r ~/my-dev-blog/build/* /var/www/my-dev-blog/
-```
-
-NGINX was reloaded (see configuration above) so the built site is served as the root page on port 80.
-
-**Note:** Redeploying after future changes requires repeating the last three steps: `git pull`, `pnpm build`, and copying the updated `build/` output to `/var/www/my-dev-blog`.
-
-## 6. Server Details
-
-- **Server IP:** `116.203.27.31`
-- **Web server:** NGINX, serving the built Docusaurus site on port 80
+- **Server IP (submission URL):** `116.203.27.31:8081`
 - **Authentication:** SSH key only, password login disabled
