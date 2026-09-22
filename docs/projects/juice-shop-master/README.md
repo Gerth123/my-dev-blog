@@ -73,6 +73,7 @@ Each challenge is demonstrated in a video of no more than 5 minutes. The video w
 
 | Challenge | Video |
 | --- | --- |
+| Score Board | Miscellaneous (Security through Obscurity) | [score-board](./score-board/index.md) |
 | Login Admin | _pending: add Loom link_ |
 | Admin Section | _pending: add Loom link_ |
 | DOM XSS | _pending: add Loom link_ |
