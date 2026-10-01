@@ -41,7 +41,7 @@ The goal of this project is to explore the OWASP Juice Shop, identify security v
 
 ## Challenges
 
-Each challenge lives in its own folder with full documentation and a linked video. The selection intentionally spans four different vulnerability categories so that no two findings come from the same area.
+Each challenge lives in its own folder with full documentation and a linked video. The selection intentionally spans several different vulnerability categories.
 
 ### Login Admin
 
@@ -67,17 +67,24 @@ Documentation: [dom-xss](./dom-xss/index.md)
 
 Documentation: [confidential-document](./confidential-document/index.md)
 
+### Zero Stars
+
+**Category:** Improper Input Validation. The customer feedback form limits ratings to one through five stars in the browser, but the server stores whatever rating value the request contains. By editing the submitted request, a rating of zero can be saved, which shows that the rating is not validated on the server.
+
+Documentation: [zero-stars](./zero-stars/index.md)
+
 ## Videos
 
 Each challenge is demonstrated in a video of no more than 5 minutes. The video walks through the finding on a local instance and explains the mitigation.
 
 | Challenge | Video |
 | --- | --- |
-| Score Board | Miscellaneous (Security through Obscurity) | [score-board](./score-board/index.md) |
+| Score Board | [score-board](./score-board/index.md) |
 | Login Admin | _pending: add Loom link_ |
 | Admin Section | _pending: add Loom link_ |
 | DOM XSS | _pending: add Loom link_ |
 | Confidential Document | _pending: add Loom link_ |
+| Zero Stars | none (documentation only) |
 
 ## Security Notes
 
