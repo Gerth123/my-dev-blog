@@ -41,37 +41,13 @@ The goal of this project is to explore the OWASP Juice Shop, identify security v
 
 ## Challenges
 
-Each challenge lives in its own folder with full documentation and a linked video. The selection intentionally spans several different vulnerability categories.
+Each challenge lives in its own folder with full documentation and a linked video. The selection intentionally spans three different vulnerability categories.
 
-### Login Admin
-
-**Category:** Injection (SQL Injection). Crafted input in the login form is interpreted as part of the database query, which allows an attacker to bypass authentication and sign in as the administrator. This exposes every customer account, order, and administrative function.
-
-Documentation: [login-admin](./login-admin/index.md)
-
-### Admin Section
-
-**Category:** Broken Access Control. The administration area is reachable without a proper server side authorization check, so a normal user can access functionality that should be restricted to administrators. This can lead to disclosure and manipulation of data that users should never be able to touch.
-
-Documentation: [admin-section](./admin-section/index.md)
-
-### DOM XSS
-
-**Category:** Cross Site Scripting. Untrusted input is written into the page without proper encoding, so an attacker can inject script that runs in the victim's browser. This can be abused to steal sessions, perform actions on behalf of the victim, or deface the application.
-
-Documentation: [dom-xss](./dom-xss/index.md)
-
-### Confidential Document
-
-**Category:** Sensitive Data Exposure. A confidential file is served from a path that is not properly protected, so it can be reached directly without authorization. Exposing internal documents this way can leak business secrets and personal data.
-
-Documentation: [confidential-document](./confidential-document/index.md)
-
-### Zero Stars
-
-**Category:** Improper Input Validation. The customer feedback form limits ratings to one through five stars in the browser, but the server stores whatever rating value the request contains. By editing the submitted request, a rating of zero can be saved, which shows that the rating is not validated on the server.
-
-Documentation: [zero-stars](./zero-stars/index.md)
+| Challenge | Category | Documentation |
+| --- | --- | --- |
+| Login Admin | Injection (SQL Injection) | [login-admin](./login-admin/index.md) |
+| Admin Section | Broken Access Control | [admin-section](./admin-section/index.md) |
+| API-only XSS | Cross Site Scripting | [api-xss](./api-xss/index.md) |
 
 ## Videos
 
@@ -79,12 +55,9 @@ Each challenge is demonstrated in a video of no more than 5 minutes. The video w
 
 | Challenge | Video |
 | --- | --- |
-| Score Board | [score-board](./score-board/index.md) |
-| Login Admin | _pending: add Loom link_ |
-| Admin Section | _pending: add Loom link_ |
-| DOM XSS | _pending: add Loom link_ |
-| Confidential Document | _pending: add Loom link_ |
-| Zero Stars | none (documentation only) |
+| Login Admin | _TODO: add Loom link_ |
+| Admin Section | _TODO: add Loom link_ |
+| API-only XSS | _TODO: add Loom link_ |
 
 ## Security Notes
 
