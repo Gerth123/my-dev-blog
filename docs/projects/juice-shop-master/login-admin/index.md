@@ -5,7 +5,7 @@
 **Category:** Injection (SQL Injection)
 **OWASP mapping:** A03:2021 Injection
 **Difficulty:** 2 stars
-**Video:** _TODO: add Loom link (max 5 minutes)_
+**Video:** https://www.loom.com/share/20017eaa985a4a2eaf250adf86e004fe
 
 ## Table of Contents
 
