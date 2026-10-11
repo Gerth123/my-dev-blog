@@ -5,7 +5,7 @@
 **Category:** Broken Access Control
 **OWASP mapping:** A01:2021 Broken Access Control
 **Difficulty:** 1 star
-**Video:** _TODO: add Loom link (max 5 minutes)_
+**Video:** https://www.loom.com/share/29f50be18013416396758588b76d66ee
 
 ## Table of Contents
 
@@ -18,61 +18,84 @@
 
 ## Overview
 
-The Juice Shop has an administration section that is not linked anywhere in the normal navigation. The route exists in the client side application and can be discovered by reading the JavaScript bundle. Reaching it is a matter of knowing the hidden path and holding a session the client accepts as administrator, rather than the server enforcing authorization on every request. This is a classic Broken Access Control finding combined with security through obscurity.
+The Juice Shop has an administration section that is not linked anywhere in the navigation. The route exists in the client side application and can be found by reading the JavaScript bundle. In the browser the page is gated by a client side guard, so a normal customer is redirected away. That guard runs only in the browser, and the API behind the administration view does not enforce authorization on the server. A normal customer can therefore call the user endpoint directly and read the full user table, which makes this a Broken Access Control finding combined with security through obscurity.
 
 ## Why it is dangerous
 
-The administration section exposes sensitive functionality: the list of registered users and their data, and all customer feedback. An attacker who reaches it can read customer information and manage content that should be restricted to staff. The deeper problem is the pattern: when access control lives in the frontend and sensitive routes are merely hidden, anyone who inspects the shipped JavaScript or replays API calls can bypass it. The wider impact is disclosure of personal data, unauthorised administrative actions, and a false sense of security for the operator who believes the area is protected because it is not visible in the menu. In a real application this can mean a reportable data breach and manipulation of production data.
+The administration view exposes the list of registered users and the customer feedback. The real problem is deeper than the hidden page: the endpoint that backs it returns all user records to any authenticated user, regardless of role. That includes email addresses, assigned roles, and password hashes. A single logged in customer can pull the entire user base without ever being an administrator. The wider impact is mass disclosure of personal data and credentials, a direct path to privilege escalation and account takeover, and a reportable data breach. It also shows the trap of relying on a hidden route and a browser guard: both give a false sense of protection while the server quietly hands out the data.
 
 ## Reproduction
 
 **Preconditions:**
 
 - Local instance running on `http://localhost:3000`
-- An administrator session. The administration route is gated by a client side guard that checks the token role, so log in as administrator first using the [Login Admin](../login-admin/index.md) SQL injection, then continue here.
+- A customer account and its Bearer token (see Step 4)
+- An administrator session for the UI part of Step 2 (via the [Login Admin](../login-admin/index.md) SQL injection)
 
-### Step 1: Discover the hidden route
+### Step 1: Find the hidden route in the client code
 
-The administration route is defined in the client side application code that is shipped to every visitor. Search the JavaScript bundle for the route path.
+1. Open the browser developer tools with F12 and go to the **Debugger** tab.
+2. In the file tree under `localhost:3000`, open `main.js`.
+3. Search the file with Ctrl and F for `administration`. The route is defined as `path:'administration'` with a client side guard next to it.
 
-1. Open the browser developer tools, go to the **Sources** tab, open the main application bundle (for example `main.js`), and search for `administration`. The route path is defined there.
+The route is shipped to every visitor, so it is not secret despite being unlinked.
 
-2. Alternatively, pull the bundle and grep for it from the terminal:
+![TODO caption: path administration found in main.js via the Debugger](./img/admin-route-in-bundle.png)
 
-   ```bash
-   curl -s http://localhost:3000/main.js | grep -o "administration"
-   ```
+### Step 2: Access the page with an administrator session
 
-   The match confirms that the client defines a route named `administration`.
-
-![TODO caption: administration route found in the JS bundle](./img/admin-route-in-bundle.png)
-
-### Step 2: Navigate to the administration section
-
-1. With the administrator session active, open the hidden route directly in the browser:
+1. Without a valid session, enter the route directly in the address bar and note that access is refused:
 
    ```text
    http://localhost:3000/#/administration
    ```
 
-2. The administration section loads and displays the registered users and the customer feedback.
+2. Log in as administrator using the SQL injection from the Login Admin challenge.
+3. Open the route again. The administration section now loads and shows the registered users and the customer feedback. The challenge is marked solved.
 
 ![TODO caption: administration section showing users and feedback](./img/admin-section-open.png)
 
-**Result:** The administration section is reached and its data is visible. The challenge is marked solved and the success notification appears.
+### Step 3: Confirm the browser guard blocks a normal customer
+
+1. Log in as a normal customer (for example `bender@juice-sh.op`, role `customer`).
+2. Try to open `http://localhost:3000/#/administration` again. The client side guard redirects you away, so the page looks protected.
+
+![TODO caption: customer redirected away from the admin route](./img/admin-section-blocked-customer.png)
+
+### Step 4: Bypass the guard through the API
+
+The guard runs only in the browser. Calling the API directly goes around it entirely.
+
+1. Read the customer's token from the developer tools: **Storage** tab, **Local Storage**, entry `token`. Keep it in a shell variable (do not commit it anywhere):
+
+   ```bash
+   USER_TOKEN="<paste the customer token here>"
+   ```
+
+2. Request the user endpoint directly with the customer token:
+
+   ```bash
+   curl -s http://localhost:3000/api/Users -H "Authorization: Bearer $USER_TOKEN"
+   ```
+
+3. The server responds with 200 and returns the full user table, including email addresses, roles, and password hashes, to a plain customer.
+
+![TODO caption: API returns the full user table for a customer token (sensitive fields cropped)](./img/admin-api-users.png)
+
+**Result:** The administration view is reachable and, more importantly, the backing endpoint exposes all user records to any authenticated user. This proves the protection lived only in the browser.
 
 ## Root cause
 
-Access to the administration area is controlled on the client side only. The route is defined in the Angular routing (`frontend/src/app/app.routing.ts`) with a client side guard (`frontend/src/app/admin-guard/admin.guard.ts`) that inspects the decoded token role in the browser. Hiding the route from the navigation and relying on a frontend guard is not a security control: the routing table is shipped to the client and the guard runs in code the attacker fully controls. Any sensitive endpoint that trusts the frontend to have performed the check, rather than verifying the caller's role server side on every request, is exposed.
+Two weaknesses combine. First, the administration route is only hidden, not protected: it is defined in `frontend/src/app/app.routing.ts` and gated by a client side guard in `frontend/src/app/admin-guard/admin.guard.ts`, both shipped to the browser where an attacker can read and bypass them. Second, and more serious, the user endpoint does not enforce authorization on the server, so it returns the full user table to any authenticated caller regardless of role. Hiding a route and guarding it in the client are not access control, because the routing table is public in the bundle and the guard runs in code the attacker controls. The server must decide access on every request.
 
 ## Mitigation
 
-Enforce authorization on the server for every sensitive route and API endpoint, based on the authenticated user's role, and never rely on hidden routes or client side guards as the protection. Client side guards are only a user experience convenience.
+Enforce authorization on the server for every sensitive route and API endpoint, based on the authenticated user's role, and deny by default. A client side guard is only a user experience convenience, never the protection. Hiding a route is not protection at all.
 
-Vulnerable (endpoint trusts that the frontend blocked non admins):
+Vulnerable (endpoint returns data to any authenticated user):
 
 ```js
-app.get('/api/admin/users', (req, res) => {
+app.get('/api/Users', (req, res) => {
   res.json(getAllUsers())
 })
 ```
@@ -85,15 +108,15 @@ function requireAdmin (req, res, next) {
   next()
 }
 
-app.get('/api/admin/users', requireAdmin, (req, res) => {
+app.get('/api/Users', requireAdmin, (req, res) => {
   res.json(getAllUsers())
 })
 ```
 
 **Key takeaways:**
 
-- Enforce access control server side on every request, deny by default, and check the authenticated user's role.
-- Do not treat hidden routes or client side guards as security. Anything shipped to the browser is visible and controllable by the attacker.
+- Enforce access control server side on every request and deny by default. A customer token must never return admin data.
+- Do not rely on hidden routes or client side guards. Anything shipped to the browser is visible and controllable by the attacker.
 
 ## References
 
