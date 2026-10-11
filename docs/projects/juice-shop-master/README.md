@@ -57,7 +57,7 @@ Each challenge is demonstrated in a video of no more than 5 minutes. The video w
 | --- | --- |
 | Login Admin | [Watch on Loom](https://www.loom.com/share/20017eaa985a4a2eaf250adf86e004fe) |
 | Admin Section | [Watch on Loom](https://www.loom.com/share/29f50be18013416396758588b76d66ee) |
-| API-only XSS | _TODO: add Loom link_ |
+| API-only XSS | [Watch on Loom](https://www.loom.com/share/60b505abf6594e3cb0141c824086cc3d) |
 
 ## Security Notes
 
