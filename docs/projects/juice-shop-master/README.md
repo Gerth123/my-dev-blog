@@ -2,7 +2,11 @@
 
 A hands on security project on the OWASP Juice Shop, an intentionally vulnerable web application built for security training. This project documents a set of self solved challenges across different vulnerability categories, showing how each flaw is exploited and, more importantly, how it is mitigated. Every challenge has its own documentation folder and a short demonstration video. All work is performed against a local instance only.
 
-> **Educational purpose only.** The content in this repository is provided strictly for educational and defensive security purposes. The OWASP Juice Shop is a deliberately vulnerable training application. Do not apply any of these techniques against systems you do not own or are not explicitly authorized to test.
+:::warning Educational purpose only
+
+The content in this repository is provided strictly for educational and defensive security purposes. The OWASP Juice Shop is a deliberately vulnerable training application. Do not apply any of these techniques against systems you do not own or are not explicitly authorized to test.
+
+:::
 
 ## Table of Contents
 
