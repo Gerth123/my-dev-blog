@@ -1,6 +1,10 @@
 # Admin Section
 
-> **Educational purpose only.** This documentation describes a vulnerability in the OWASP Juice Shop, an intentionally vulnerable training application. It is provided for educational and defensive purposes and was reproduced on a local instance only.
+:::warning Educational purpose only
+
+This documentation describes a vulnerability in the OWASP Juice Shop, an intentionally vulnerable training application. It is provided for educational and defensive purposes and was reproduced on a local instance only.
+
+:::
 
 **Category:** Broken Access Control
 **OWASP mapping:** A01:2021 Broken Access Control
@@ -66,11 +70,17 @@ The route is shipped to every visitor, so it is not secret despite being unlinke
 
 The guard runs only in the browser. Calling the API directly goes around it entirely.
 
-1. Read the customer's token from the developer tools: **Storage** tab, **Local Storage**, entry `token`. Keep it in a shell variable (do not commit it anywhere):
+1. Read the customer's token from the developer tools: **Storage** tab, **Local Storage**, entry `token`. Keep it in a shell variable:
 
    ```bash
    USER_TOKEN="<paste the customer token here>"
    ```
+
+:::danger Never commit a token
+
+The Bearer token is a live credential. Keep it out of the repository, out of commits, and cropped out of any screenshot.
+
+:::
 
 2. Request the user endpoint directly with the customer token:
 

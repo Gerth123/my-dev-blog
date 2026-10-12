@@ -1,6 +1,10 @@
 # Login Admin
 
-> **Educational purpose only.** This documentation describes a vulnerability in the OWASP Juice Shop, an intentionally vulnerable training application. It is provided for educational and defensive purposes and was reproduced on a local instance only.
+:::warning Educational purpose only
+
+This documentation describes a vulnerability in the OWASP Juice Shop, an intentionally vulnerable training application. It is provided for educational and defensive purposes and was reproduced on a local instance only.
+
+:::
 
 **Category:** Injection (SQL Injection)
 **OWASP mapping:** A03:2021 Injection
@@ -33,7 +37,7 @@ A successful login bypass gives the attacker the administrator session, which ex
 
 ### Step 1: Find the administrator email
 
-You can skip this step and still solve the challenge (see the note in Step 2), but knowing the target email lets you log in as a specific account instead of whichever user happens to be first in the table. Two ways to obtain it:
+You can skip this step and still solve the challenge (see the note in Step 3), but knowing the target email lets you log in as a specific account instead of whichever user happens to be first in the table. Two ways to obtain it:
 
 **Option A: via the product reviews (UI)**
 
@@ -67,9 +71,22 @@ The product reviews endpoint returns the review authors, including their email, 
 
 ![TODO caption: API response with the author email](./img/admin-email-api.png)
 
-### Step 2: Bypass the login with SQL injection
+### Step 2: Confirm the login field is injectable
+
+Before crafting the full payload, a single quote shows whether the input reaches the SQL query unescaped. This is the step that reveals SQL injection is even possible here.
 
 1. Open the login page at `http://localhost:3000/#/login`.
+2. In the **Email** field, enter a single quote and any password:
+
+   ```text
+   '
+   ```
+
+3. Submit the form. The server answers with a `500` error whose message leaks the raw SQL statement, along the lines of `SQLITE_ERROR: unrecognized token` followed by the full `SELECT * FROM Users WHERE email = '''...` query. Seeing the quote break the query proves the email value is concatenated into the SQL unescaped, which is exactly the flaw the next step exploits.
+
+### Step 3: Bypass the login with SQL injection
+
+1. Back on the login page at `http://localhost:3000/#/login`.
 2. In the **Email** field, enter the targeted payload. The trailing `'` closes the string literal and `--` comments out the rest of the query, including the password check. Note the required trailing space after `--` (SQLite).
 
    ```text

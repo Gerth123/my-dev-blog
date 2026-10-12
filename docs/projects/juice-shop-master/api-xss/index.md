@@ -1,6 +1,10 @@
 # API-only XSS
 
-> **Educational purpose only.** This documentation describes a vulnerability in the OWASP Juice Shop, an intentionally vulnerable training application. It is provided for educational and defensive purposes and was reproduced on a local instance only.
+:::warning Educational purpose only
+
+This documentation describes a vulnerability in the OWASP Juice Shop, an intentionally vulnerable training application. It is provided for educational and defensive purposes and was reproduced on a local instance only.
+
+:::
 
 **Category:** Cross Site Scripting (XSS)
 **OWASP mapping:** A03:2021 Injection / XSS
@@ -45,11 +49,17 @@ The distinction matters: the generic `/api/` area is what allows reading and wri
 ### Step 2: Obtain a Bearer token
 
 1. Register and log in with a throwaway test account in the application.
-2. Read the token from the developer tools: **Storage** tab, **Local Storage**, entry `token`. Keep it in a shell variable (do not commit it anywhere):
+2. Read the token from the developer tools: **Storage** tab, **Local Storage**, entry `token`. Keep it in a shell variable:
 
    ```bash
    TOKEN="<paste the token here>"
    ```
+
+:::danger Never commit a token
+
+The Bearer token is a live credential. Keep it out of the repository, out of commits, and cropped out of any screenshot.
+
+:::
 
 ![TODO caption: token read from Local Storage](./img/api-xss-token.png)
 
@@ -132,7 +142,13 @@ This shows why stored XSS matters beyond a popup: the stored script steals the v
    GET /?c=<the session token> HTTP/1.1
    ```
 
-The script runs for every visitor who views the product. For a logged in user it steals the session token; for a guest with no token it would still run any other injected code. Do not commit the captured token anywhere.
+The script runs for every visitor who views the product. For a logged in user it steals the session token; for a guest with no token it would still run any other injected code.
+
+:::danger Never commit a token
+
+The captured token in the listener log is a live credential. Crop it out of the screenshot and never commit it.
+
+:::
 
 ![TODO caption: listener log showing the stolen token (token cropped)](./img/api-xss-token-stolen.png)
 
