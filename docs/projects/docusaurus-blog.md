@@ -15,7 +15,7 @@ This project is my personal learning journal and developer portfolio. It is base
   - [Testing](#testing)
 - [Further References](#further-references)
 
-import GithubLinkAdmonition from '@site/src/components/GithubLinkAdmonition';
+import GithubLinkAdmonition from '@site/src/components/github-link-admonition';
 
 <GithubLinkAdmonition
   link="https://github.com/Gerth123/my-dev-blog"
