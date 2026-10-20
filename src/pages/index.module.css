@@ -1,0 +1,5 @@
+.portfolio {
+  font-family: var(--portfolio-font);
+  color: var(--portfolio-white);
+  background-color: var(--portfolio-dark);
+}

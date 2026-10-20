@@ -1,5 +1,8 @@
 import type {ReactNode} from 'react';
 import Head from '@docusaurus/Head';
+import '@fontsource-variable/quicksand';
+
+import styles from './index.module.css';
 
 export default function Home(): ReactNode {
   return (
@@ -8,7 +11,7 @@ export default function Home(): ReactNode {
         <title>Robin Gerth | Portfolio</title>
         <meta name="description" content="Portfolio of Robin Gerth" />
       </Head>
-      <main></main>
+      <main className={styles.portfolio}></main>
     </>
   );
 }
