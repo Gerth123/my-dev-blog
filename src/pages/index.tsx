@@ -1,8 +1,9 @@
 import type {ReactNode} from 'react';
 import Head from '@docusaurus/Head';
 import '@fontsource-variable/quicksand';
-import Header from '@site/src/components/header';
 import styles from './index.module.css';
+import Header from '@site/src/components/header';
+import Footer from '@site/src/components/footer';
 
 export default function Home(): ReactNode {
   return (
@@ -13,6 +14,7 @@ export default function Home(): ReactNode {
       </Head>
       <Header />
       <main className={styles.portfolio}></main>
+      <Footer />
     </>
   );
 }
