@@ -14,12 +14,36 @@ interface Project {
 
 const projects: Project[] = [
   {
+    title: 'Conduit Deployment',
+    technologies: ['Container', 'CI/CD', 'YAML'],
+    description:
+      'I containerized a legacy Django and Angular blogging platform with multi stage builds and patched an outdated Django version to run on modern Python. Every push to main now builds the images, pushes them to GHCR and deploys them to my cloud server via SSH.',
+    docsPath: '/docs/projects/conduit-deployment',
+    githubUrl: 'https://github.com/Gerth123/conduit-container/tree/feature/conduit-deployment',
+  },
+  {
+    title: 'Truck Signs API',
+    technologies: ['Python', 'Container', 'CI/CD'],
+    description:
+      'I took over a Django REST backend with broken Docker files and debugged them instead of starting from scratch. I updated the project to Python 3.12 and Django 5.2, moved all configuration into environment variables and added linting and tests to the CI pipeline.',
+    docsPath: '/docs/projects/truck-signs-api',
+    githubUrl: 'https://github.com/Gerth123/truck-signs-api/tree/feature/truck-signs-api-v2',
+  },
+  {
     title: 'Juice Shop Meister',
     technologies: ['IT Security', 'Container', 'Shell scripting'],
     description:
       'I attacked the OWASP Juice Shop in my own Kali Linux lab and documented every step: logging in as admin, finding the hidden admin section and an XSS attack via the API. It showed me how small gaps in input validation turn into real security risks.',
     docsPath: '/docs/projects/juice-shop-master',
     githubUrl: 'https://github.com/Gerth123/my-dev-blog/tree/main/docs/projects/juice-shop-master',
+  },
+  {
+    title: 'V-Server Setup',
+    technologies: ['Shell scripting', 'IT Security'],
+    description:
+      'I set up an Ubuntu server from scratch and secured it with SSH key authentication only. I configured NGINX to serve a static site on a separate port and connected the server to GitHub with its own dedicated SSH key.',
+    docsPath: '/docs/projects/v-server-setup',
+    githubUrl: 'https://github.com/Gerth123/my-dev-blog/tree/main/docs/projects/v-server-setup',
   },
   {
     title: 'Docusaurus Blog',
