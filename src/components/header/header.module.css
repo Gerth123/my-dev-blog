@@ -4,19 +4,20 @@
   left: 0;
   right: 0;
   z-index: 100;
+  padding: 0 80px;
   background-color: var(--portfolio-blue);
   transition: transform 0.3s ease;
-}
-
-.hidden {
-  transform: translateY(-100%);
 }
 
 .nav {
   display: flex;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 24px 80px;
+  padding: 24px 0;
+}
+
+.hidden {
+  transform: translateY(-100%);
 }
 
 .links {
@@ -34,6 +35,7 @@
 
 .links a {
   color: var(--portfolio-white);
+  font-weight: 500;
 }
 
 .links a:hover,
@@ -108,10 +110,14 @@
 }
 
 @media (max-width: 768px) {
-  .nav {
-    padding: 16px;
+  .header {
+    padding: 0 16px;
   }
 
+  .nav {
+    padding: 16px 0;
+  }
+  
   .links {
     display: none;
   }
