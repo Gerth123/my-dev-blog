@@ -31,8 +31,8 @@
 
 /* Portfolio design tokens */
 :root {
-  --portfolio-blue: #2b6cdb;
-  --portfolio-dark: #24292e;
+  --portfolio-blue: #266ad9;
+  --portfolio-dark: #262e34;
   --portfolio-card: #2f3741;
   --portfolio-white: #ffffff;
   --portfolio-font: 'Quicksand Variable', sans-serif;
