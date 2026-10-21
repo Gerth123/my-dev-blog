@@ -1,0 +1,39 @@
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 64px 16px 32px;
+  background-color: var(--portfolio-dark);
+}
+
+.toTop {
+  width: 36px;
+  height: 72px;
+  margin-bottom: 32px;
+  border: 1px solid var(--portfolio-white);
+  border-radius: 18px;
+  background: none;
+  color: var(--portfolio-white);
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.toTop:hover {
+  background-color: var(--portfolio-card);
+}
+
+.copyright {
+  margin: 0;
+  font-size: 12px;
+}
+
+.legal {
+  color: var(--portfolio-white);
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.legal:hover {
+  text-decoration: underline;
+}
