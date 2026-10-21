@@ -1,9 +1,11 @@
 import type {ReactNode} from 'react';
-// import profileImage from '@site/static/img/profile.jpg';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 import styles from './hero.module.css';
 
 export default function Hero(): ReactNode {
+  const profileImage = useBaseUrl('/img/profile.jpg');
+
   return (
     <section id="about" className={styles.hero}>
       <div className={styles.content}>
@@ -13,8 +15,7 @@ export default function Hero(): ReactNode {
           <p className={styles.title}>Full Stack Developer</p>
         </div>
 
-        {/* <img className={styles.image} src={profileImage} alt="Robin Gerth" /> */}
-        <div className={styles.image} aria-hidden="true" />
+        <img className={styles.image} src={profileImage} alt="Robin Gerth" />
 
         <div className={styles.about}>
           <p>

@@ -1,4 +1,5 @@
 import type {ReactNode} from 'react';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 import styles from './contact.module.css';
 
@@ -6,6 +7,8 @@ const EMAIL = 'kontakt@robin-gerth.de';
 const PROFILE_URL = 'https://linkedin.com/in/robin-gerth-47100031b/';
 
 export default function Contact(): ReactNode {
+  const mailIcon = useBaseUrl('/img/contact/mail.svg');
+  const linkedinIcon = useBaseUrl('/img/contact/linkedin.svg');
   return (
     <section id="contact" className={styles.contact}>
       <div className={styles.content}>
@@ -26,13 +29,13 @@ export default function Contact(): ReactNode {
           <p className={styles.lead}>Looking forward to hearing from you!</p>
           <ul className={styles.links}>
             <li>
-              <span className={styles.icon} aria-hidden="true" />
+              <img className={styles.icon} src={mailIcon} alt="Email" />
               <a className={styles.mail} href={`mailto:${EMAIL}`}>
                 {EMAIL}
               </a>
             </li>
             <li>
-              <span className={styles.icon} aria-hidden="true" />
+              <img className={styles.icon} src={linkedinIcon} alt="LinkedIn" />
               <a
                 className={styles.profile}
                 href={PROFILE_URL}
