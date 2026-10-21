@@ -15,7 +15,7 @@
   margin: 0 0 24px;
   color: var(--portfolio-white);
   font-size: 48px;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 .intro {
@@ -52,8 +52,7 @@
   flex-shrink: 0;
   width: 28px;
   height: 28px;
-  border-radius: 50%;
-  background-color: var(--portfolio-blue);
+  object-fit: contain;
 }
 
 .mail,

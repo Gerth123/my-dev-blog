@@ -12,7 +12,7 @@
   margin: 0 0 48px;
   color: var(--portfolio-white);
   font-size: 48px;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 .layout {
@@ -91,7 +91,7 @@
   margin: 0;
   color: var(--portfolio-white);
   font-size: 28px;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 .number {
@@ -240,9 +240,11 @@
   .mobileMore {
     display: block;
     margin-top: 24px;
+    text-align: center;
   }
 
   .mobileMore p {
     margin: 0 0 16px;
+    text-align: left;
   }
 }

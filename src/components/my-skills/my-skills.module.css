@@ -12,7 +12,7 @@
   margin: 0 0 32px;
   color: var(--portfolio-white);
   font-size: 48px;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 .slider {
@@ -111,7 +111,7 @@
 
   .page {
     display: flex;
-    flex: 0 0 100%;
+    flex: 0 0 85%;
     flex-direction: column;
     gap: 24px;
     padding: 16px;
@@ -166,7 +166,7 @@
   }
 
   .details ul {
-    font-size: 12px;
+    font-size: 14px;
   }
 
   .dots {
