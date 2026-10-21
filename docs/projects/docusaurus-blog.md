@@ -37,7 +37,7 @@ import GithubLinkAdmonition from '@site/src/components/github-link-admonition';
 2. Install the dependencies:
 
    ```bash
-   pnpm install
+   npm ci
    ```
 
 3. Create the local environment file:
@@ -49,7 +49,7 @@ import GithubLinkAdmonition from '@site/src/components/github-link-admonition';
 4. Start the development server:
 
    ```bash
-   pnpm start
+   npm start
    ```
 
 5. Open `http://localhost:3000` in a browser.
@@ -128,13 +128,13 @@ In the repository settings, the GitHub Pages deployment source must be set to **
 I tested the project locally with:
 
 ```bash
-pnpm start
+npm start
 ```
 
 I also tested the production build with:
 
 ```bash
-pnpm build
+npm run build
 ```
 
 The same build must complete successfully in the GitHub Actions workflow before the project is submitted.
