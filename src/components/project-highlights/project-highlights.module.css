@@ -106,11 +106,20 @@
 }
 
 .badge {
-  padding: 2px 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px 2px 4px;
   border-radius: 4px;
   background-color: var(--portfolio-white);
   color: var(--portfolio-dark);
   font-size: 11px;
+}
+
+.badgeIcon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
 }
 
 .image {

@@ -1,6 +1,8 @@
 import {useState} from 'react';
 import type {ReactNode} from 'react';
 import Link from '@docusaurus/Link';
+import useBaseUrl from '@docusaurus/useBaseUrl';
+import {skills} from '@site/src/components/my-skills/skills';
 
 import styles from './project-highlights.module.css';
 
@@ -15,7 +17,7 @@ interface Project {
 const projects: Project[] = [
   {
     title: 'Conduit Deployment',
-    technologies: ['Container', 'CI/CD', 'YAML'],
+    technologies: ['Container', 'CI/CD with GitHub Actions', 'YAML'],
     description:
       'I containerized a legacy Django and Angular blogging platform with multi stage builds and patched an outdated Django version to run on modern Python. Every push to main now builds the images, pushes them to GHCR and deploys them to my cloud server via SSH.',
     docsPath: '/docs/projects/conduit-deployment',
@@ -23,7 +25,7 @@ const projects: Project[] = [
   },
   {
     title: 'Truck Signs API',
-    technologies: ['Python', 'Container', 'CI/CD'],
+    technologies: ['Python', 'Container', 'CI/CD with GitHub Actions'],
     description:
       'I took over a Django REST backend with broken Docker files and debugged them instead of starting from scratch. I updated the project to Python 3.12 and Django 5.2, moved all configuration into environment variables and added linting and tests to the CI pipeline.',
     docsPath: '/docs/projects/truck-signs-api',
@@ -47,7 +49,7 @@ const projects: Project[] = [
   },
   {
     title: 'Docusaurus Blog',
-    technologies: ['Static site generator', 'YAML', 'CI/CD'],
+    technologies: ['Static site generator', 'YAML', 'CI/CD with GitHub Actions'],
     description:
       'The site you are looking at. I turned a Docusaurus template into my learning journal and portfolio, built the portfolio as typed React components and deploy every change to GitHub Pages through my own GitHub Actions workflow.',
     docsPath: '/docs/projects/docusaurus-blog',
@@ -59,6 +61,13 @@ const MORE_PROJECTS_PATH = '/docs/projects/overview';
 
 export default function ProjectHighlights(): ReactNode {
   const [activeIndex, setActiveIndex] = useState(0);
+  const iconBase = useBaseUrl('/img/skills/');
+
+  // Badges prefer the dark icon variant for light backgrounds
+  const badgeIcon = (name: string): string | undefined => {
+    const skill = skills.find((s) => s.name === name);
+    return skill && `${iconBase}${skill.badgeIcon ?? skill.icon}`;
+  };
 
   return (
     <section id="projects" className={styles.highlights}>
@@ -94,11 +103,15 @@ export default function ProjectHighlights(): ReactNode {
                     {project.title}
                   </h3>
                   <ul className={styles.badges}>
-                    {project.technologies.map((technology) => (
-                      <li key={technology} className={styles.badge}>
-                        {technology}
-                      </li>
-                    ))}
+                    {project.technologies.map((technology) => {
+                      const icon = badgeIcon(technology);
+                      return (
+                        <li key={technology} className={styles.badge}>
+                          {icon && <img className={styles.badgeIcon} src={icon} alt="" />}
+                          {technology}
+                        </li>
+                      );
+                    })}
                   </ul>
                 </div>
 
