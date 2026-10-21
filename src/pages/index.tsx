@@ -3,6 +3,7 @@ import Head from '@docusaurus/Head';
 import '@fontsource-variable/quicksand';
 import styles from './index.module.css';
 import Header from '@site/src/components/header';
+import Hero from '@site/src/components/hero';
 import Footer from '@site/src/components/footer';
 
 export default function Home(): ReactNode {
@@ -13,7 +14,9 @@ export default function Home(): ReactNode {
         <meta name="description" content="Portfolio of Robin Gerth" />
       </Head>
       <Header />
-      <main className={styles.portfolio}></main>
+      <main className={styles.portfolio}>
+        <Hero />
+      </main>
       <Footer />
     </>
   );
