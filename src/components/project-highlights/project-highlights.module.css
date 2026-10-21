@@ -41,22 +41,24 @@
   cursor: pointer;
 }
 
-.item {
-  opacity: 0.8;
-}
-
-.item:hover {
-  opacity: 1;
+.item:hover,
+.item:focus-visible {
+  text-decoration: underline;
 }
 
 .activeItem {
-  font-weight: 700;
+  color: var(--portfolio-dark);
 }
 
 .more,
 .more:hover {
   color: var(--portfolio-white);
   text-decoration: underline;
+}
+
+.more:hover,
+.more:focus-visible {
+  font-weight: 700;
 }
 
 .card {
@@ -165,10 +167,18 @@
 }
 
 .docsButton:hover,
-.githubButton:hover {
+.docsButton:focus-visible {
+  border-color: #4d94ff;
+  background-color: #4d94ff;
   color: var(--portfolio-white);
   text-decoration: none;
-  opacity: 0.85;
+}
+
+.githubButton:hover,
+.githubButton:focus-visible {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: var(--portfolio-white);
+  text-decoration: none;
 }
 
 .mobileMore {

@@ -19,8 +19,9 @@
   cursor: pointer;
 }
 
-.toTop:hover {
-  background-color: var(--portfolio-card);
+.toTop:hover,
+.toTop:focus-visible {
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
 .copyright {
