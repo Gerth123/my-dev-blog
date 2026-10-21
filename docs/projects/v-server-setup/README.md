@@ -204,8 +204,3 @@ Before submitting, the following was verified:
 - [NGINX Beginner's Guide](https://nginx.org/en/docs/beginners_guide.html)
 - [OpenSSH sshd_config Manual](https://man.openbsd.org/sshd_config)
 - [GitHub SSH Documentation](https://docs.github.com/en/authentication/connecting-to-github-with-ssh)
-
-## Server Details
-
-- **Server IP (submission URL):** `116.203.27.31:8081`
-- **Authentication:** SSH key only, password login disabled
