@@ -37,3 +37,10 @@
   --portfolio-white: #ffffff;
   --portfolio-font: 'Quicksand Variable', sans-serif;
 }
+
+/* Smooth scrolling for anchor links, unless the user prefers reduced motion */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
