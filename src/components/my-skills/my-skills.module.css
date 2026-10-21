@@ -37,52 +37,51 @@
   align-items: center;
   justify-content: center;
   gap: 12px;
-  min-height: 140px;
+  min-height: 200px;
   padding: 24px;
-  border-radius: 16px;
+  border-radius: 24px;
   background-color: var(--portfolio-card);
   text-align: center;
   outline: none;
+  overflow: hidden;
 }
 
 .icon {
-  width: 48px;
-  height: 48px;
+  width: 80px;
+  height: 80px;
   object-fit: contain;
 }
 
 .name {
-  font-size: 14px;
+  font-size: 16px;
 }
 
-/* Desktop: details appear below the card on hover or focus */
+/* Desktop: details replace the card content on hover or focus */
 .details {
   display: none;
   position: absolute;
-  top: calc(100% + 8px);
-  left: 0;
-  right: 0;
-  z-index: 10;
-  padding: 16px 20px;
-  border-radius: 16px;
-  background-color: var(--portfolio-blue);
+  inset: 0;
+  flex-direction: column;
+  justify-content: center;
+  padding: 24px 28px;
+  background-color: #50739e;
   text-align: left;
 }
 
 .skill:hover .details,
 .skill:focus-within .details {
-  display: block;
+  display: flex;
 }
 
 .detailsTitle {
-  margin: 0 0 8px;
-  font-size: 18px;
+  margin: 0 0 16px;
+  font-size: 22px;
 }
 
 .details ul {
   margin: 0;
   padding-left: 16px;
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .dots {
@@ -132,8 +131,10 @@
     row-gap: 4px;
     min-height: 0;
     padding: 0;
+    border-radius: 0;
     background: none;
     text-align: left;
+    overflow: visible;
   }
 
   .icon {
