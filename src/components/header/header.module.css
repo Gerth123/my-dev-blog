@@ -36,8 +36,13 @@
   color: var(--portfolio-white);
 }
 
-.links a:hover {
+.links a:hover,
+.links a:focus-visible {
   text-decoration: underline;
+}
+
+.links a:active {
+  color: var(--portfolio-dark);
 }
 
 .burger,
