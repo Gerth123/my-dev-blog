@@ -51,12 +51,19 @@
 
 .more,
 .more:hover {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
   color: var(--portfolio-white);
+  text-decoration: none;
+}
+
+.more span {
   text-decoration: underline;
 }
 
-.more:hover,
-.more:focus-visible {
+.more:hover span,
+.more:focus-visible span {
   font-weight: 700;
 }
 

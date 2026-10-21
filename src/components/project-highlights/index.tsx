@@ -64,6 +64,11 @@ const projects: Project[] = [
 ];
 
 const MORE_PROJECTS_PATH = '/docs/projects/overview';
+const cornerArrow = (
+  <svg width="20" height="16" viewBox="0 0 20 16" aria-hidden="true">
+    <path d="M2 0v11h15M13 7l4 4-4 4" fill="none" stroke="currentColor" strokeWidth="1.5" />
+  </svg>
+);
 
 export default function ProjectHighlights(): ReactNode {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -95,7 +100,8 @@ export default function ProjectHighlights(): ReactNode {
               ))}
             </ol>
             <Link className={styles.more} to={MORE_PROJECTS_PATH}>
-              ↳ see more projects
+              {cornerArrow}
+              <span>see more projects</span>
             </Link>
           </nav>
 
@@ -153,7 +159,8 @@ export default function ProjectHighlights(): ReactNode {
             server setup to container deployments.
           </p>
           <Link className={styles.more} to={MORE_PROJECTS_PATH}>
-            ↳ see more projects
+            {cornerArrow}
+            <span>see more projects</span>
           </Link>
         </div>
       </div>
