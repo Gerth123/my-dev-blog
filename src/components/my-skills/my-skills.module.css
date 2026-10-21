@@ -31,6 +31,7 @@
 }
 
 .skill {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -41,20 +42,49 @@
   border-radius: 16px;
   background-color: var(--portfolio-card);
   text-align: center;
+  outline: none;
 }
 
 .icon {
   width: 48px;
   height: 48px;
-  border-radius: 8px;
-  background-color: rgba(255, 255, 255, 0.15);
+  object-fit: contain;
 }
 
 .name {
   font-size: 14px;
 }
 
-.details,
+/* Desktop: details appear below the card on hover or focus */
+.details {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  z-index: 10;
+  padding: 16px 20px;
+  border-radius: 16px;
+  background-color: var(--portfolio-blue);
+  text-align: left;
+}
+
+.skill:hover .details,
+.skill:focus-within .details {
+  display: block;
+}
+
+.detailsTitle {
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+
+.details ul {
+  margin: 0;
+  padding-left: 16px;
+  font-size: 13px;
+}
+
 .dots {
   display: none;
 }
@@ -119,11 +149,22 @@
     text-align: center;
   }
 
-  .details {
+  /* Mobile: details are always visible next to the icon */
+  .details,
+  .skill:hover .details,
+  .skill:focus-within .details {
     display: block;
+    position: static;
     grid-area: details;
-    margin: 0;
-    padding-left: 16px;
+    padding: 0;
+    background: none;
+  }
+
+  .detailsTitle {
+    display: none;
+  }
+
+  .details ul {
     font-size: 12px;
   }
 
