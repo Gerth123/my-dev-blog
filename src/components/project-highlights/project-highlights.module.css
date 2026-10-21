@@ -30,12 +30,11 @@
   padding-left: 20px;
 }
 
-.item,
-.activeItem {
+.item {
   padding: 0;
   border: none;
   background: none;
-  color: var(--portfolio-white);
+  color: inherit;
   font: inherit;
   text-align: left;
   cursor: pointer;

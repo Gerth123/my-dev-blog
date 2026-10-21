@@ -85,10 +85,10 @@ export default function ProjectHighlights(): ReactNode {
           <nav className={styles.list}>
             <ol>
               {projects.map((project, index) => (
-                <li key={project.title}>
-                  <button
-                    className={index === activeIndex ? styles.activeItem : styles.item}
-                    onClick={() => setActiveIndex(index)}>
+                <li
+                  key={project.title}
+                  className={index === activeIndex ? styles.activeItem : undefined}>
+                  <button className={styles.item} onClick={() => setActiveIndex(index)}>
                     {project.title}
                   </button>
                 </li>
