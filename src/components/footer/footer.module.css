@@ -8,15 +8,19 @@
 }
 
 .toTop {
-  width: 36px;
-  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 90px;
   margin-bottom: 32px;
+  padding: 0;
   border: 1px solid var(--portfolio-white);
-  border-radius: 18px;
+  border-radius: 20px;
   background: none;
   color: var(--portfolio-white);
-  font-size: 20px;
   cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 .toTop:hover,

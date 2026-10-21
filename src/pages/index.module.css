@@ -1,4 +1,5 @@
 .portfolio {
+  --ifm-heading-font-family: var(--portfolio-font);
   font-family: var(--portfolio-font);
   color: var(--portfolio-white);
   background-color: var(--portfolio-dark);

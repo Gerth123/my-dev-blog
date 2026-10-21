@@ -47,7 +47,9 @@ export default function Header(): ReactNode {
           className={styles.burger}
           aria-label="Open menu"
           onClick={() => setMenuOpen(true)}>
-          ☰
+          <svg width="30" height="32" viewBox="0 0 30 32" aria-hidden="true">
+            <path d="M0 2h30M0 16h30M0 30h30" stroke="currentColor" strokeWidth="2" />
+          </svg>
         </button>
       </nav>
 
@@ -57,7 +59,9 @@ export default function Header(): ReactNode {
             className={styles.close}
             aria-label="Close menu"
             onClick={() => setMenuOpen(false)}>
-            ✕
+            <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M2 2l20 20M22 2L2 22" stroke="currentColor" strokeWidth="2" />
+            </svg>
           </button>
           <ul>{renderLinks(() => setMenuOpen(false))}</ul>
         </div>

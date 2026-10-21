@@ -12,7 +12,7 @@
   margin: 0 0 48px;
   color: var(--portfolio-white);
   font-size: 48px;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 .layout {
@@ -30,12 +30,11 @@
   padding-left: 20px;
 }
 
-.item,
-.activeItem {
+.item {
   padding: 0;
   border: none;
   background: none;
-  color: var(--portfolio-white);
+  color: inherit;
   font: inherit;
   text-align: left;
   cursor: pointer;
@@ -52,12 +51,19 @@
 
 .more,
 .more:hover {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
   color: var(--portfolio-white);
+  text-decoration: none;
+}
+
+.more span {
   text-decoration: underline;
 }
 
-.more:hover,
-.more:focus-visible {
+.more:hover span,
+.more:focus-visible span {
   font-weight: 700;
 }
 
@@ -91,7 +97,7 @@
   margin: 0;
   color: var(--portfolio-white);
   font-size: 28px;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 .number {
@@ -240,9 +246,11 @@
   .mobileMore {
     display: block;
     margin-top: 24px;
+    text-align: center;
   }
 
   .mobileMore p {
     margin: 0 0 16px;
+    text-align: left;
   }
 }
