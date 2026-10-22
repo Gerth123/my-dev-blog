@@ -12,7 +12,7 @@ export default function Hero(): ReactNode {
         <div className={styles.intro}>
           <p className={styles.greeting}>Hey there. 👋 I am</p>
           <h1 className={styles.name}>Robin Gerth</h1>
-                    <p className={styles.title}>Full Stack Developer</p>
+          <p className={styles.title}>Full Stack Developer | DevSecOps</p>
         </div>
 
         <img className={styles.image} src={profileImage} alt="Robin Gerth" />
