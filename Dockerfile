@@ -1,17 +1,17 @@
-FROM node:20.16-alpine as builder
+FROM node:20.16-alpine AS builder
 
 WORKDIR /app
 
 ARG BLOG_ENABLED=false
-ARG DEPLOYMENT_URL="https://spmse.github.io"
+ARG DEPLOYMENT_URL="https://gerth123.github.io"
 ARG DEPLOYMENT_BRANCH="main"
-ARG GITHUB_ORG="spmse"
-ARG GITHUB_PROJECT="dev-blog-template"
+ARG GITHUB_ORG="Gerth123"
+ARG GITHUB_PROJECT="my-dev-blog"
 
-COPY . $WORKDIR
+COPY . .
 
-RUN npm install && npm run build
+RUN npm ci && npm run build
 
-FROM nginx:latest as runner
+FROM nginx:latest AS runner
 
 COPY --from=builder /app/build /usr/share/nginx/html

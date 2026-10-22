@@ -5,7 +5,7 @@ import GithubIcon from '/static/img/github.svg';
 
 type AdmonitionType = "info" | "tip" | "warning" | "note" | "danger";
 
-type GithubLinkAdmonitionType = {
+interface GithubLinkAdmonitionProps {
   link: string;
   text?: string;
   type?: AdmonitionType;
@@ -19,7 +19,7 @@ const GithubLinkAdmonition = ({
   type="info",
   title="Github",
   children
- }: GithubLinkAdmonitionType) => {
+ }: GithubLinkAdmonitionProps) => {
   return (
     <Admonition icon={<GithubIcon />} title={title} type={type}>
       <p>
