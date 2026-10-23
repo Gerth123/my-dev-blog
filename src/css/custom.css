@@ -28,3 +28,19 @@
   --ifm-color-primary-lightest: #4fddbf;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
+
+/* Portfolio design tokens */
+:root {
+  --portfolio-blue: #266ad9;
+  --portfolio-dark: #262e34;
+  --portfolio-card: #2f3741;
+  --portfolio-white: #ffffff;
+  --portfolio-font: 'Quicksand Variable', sans-serif;
+}
+
+/* Smooth scrolling for anchor links, unless the user prefers reduced motion */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}

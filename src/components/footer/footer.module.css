@@ -1,0 +1,44 @@
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 64px 16px 32px;
+  background-color: var(--portfolio-dark);
+}
+
+.toTop {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 90px;
+  margin-bottom: 32px;
+  padding: 0;
+  border: 1px solid var(--portfolio-white);
+  border-radius: 20px;
+  background: none;
+  color: var(--portfolio-white);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.toTop:hover,
+.toTop:focus-visible {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.copyright {
+  margin: 0;
+  font-size: 16px;
+}
+
+.legal {
+  color: var(--portfolio-white);
+  font-size: 16px;
+  text-decoration: none;
+}
+
+.legal:hover {
+  text-decoration: underline;
+}

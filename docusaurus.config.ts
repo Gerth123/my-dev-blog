@@ -94,6 +94,7 @@ const config: Config = {
           position: 'left',
           label: 'Docs',
         },
+        ...(blogEnabled ? [{to: '/blog', label: 'Blog', position: 'left' as const}] : []),
         {
           href: gitRepositoryUrl,
           label: 'Github',
@@ -107,10 +108,6 @@ const config: Config = {
         {
           title: 'Docs',
           items: [
-            {
-              label: 'Tutorial',
-              to: '/docs/guides/intro',
-            },
             {
               label: 'Projects',
               to: '/docs/projects/overview',
@@ -129,6 +126,7 @@ const config: Config = {
               label: 'Template',
               href: templateRepositoryUrl,
             },
+            ...(blogEnabled ? [{label: 'Blog', to: '/blog'}] : []),
           ],
         },
       ],
@@ -153,16 +151,5 @@ const config: Config = {
     },
   } satisfies Preset.ThemeConfig,
 };
-
-
-if (blogEnabled) {
-  (config.themeConfig.navbar as any).items.push({to: '/blog', label: 'Blog', position: 'left'});
-  (
-    config.themeConfig.footer as any
-  ).links[1].items.push({
-    to: '/blog',
-    label: 'Blog',
-  });
-}
 
 export default config;

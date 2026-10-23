@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+      - feature/docusaurus-portfolio
   pull_request:
     branches:
       - main
