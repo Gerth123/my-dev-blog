@@ -30,12 +30,12 @@
 
 .copyright {
   margin: 0;
-  font-size: 12px;
+  font-size: 16px;
 }
 
 .legal {
   color: var(--portfolio-white);
-  font-size: 12px;
+  font-size: 16px;
   text-decoration: none;
 }
 
