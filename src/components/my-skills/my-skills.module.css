@@ -88,6 +88,17 @@
   display: none;
 }
 
+@media (min-width: 769px) and (max-width: 1100px) {
+  .slider {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .page {
+    display: contents;
+  }
+}
+
 @media (max-width: 768px) {
   .skills {
     padding: 48px 16px;
