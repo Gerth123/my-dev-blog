@@ -1,6 +1,6 @@
 # Docusaurus Blog
 
-This project is my personal learning journal and developer portfolio. It is based on the Developer Akademie Docusaurus starter template and documents my projects, guides, and technical learning progress.
+This project is my personal learning journal and developer portfolio. It is based on the Developer Akademie Docusaurus starter template and documents my projects and technical learning progress.
 
 ## Table of Contents
 
@@ -58,7 +58,7 @@ import GithubLinkAdmonition from '@site/src/components/github-link-admonition';
 
 ### Project Goal
 
-The goal of this project was to personalize the provided Docusaurus template and turn it into my own learning journal and portfolio. The website contains project reports, technical guides, knowledge articles, and optional blog posts.
+The goal of this project was to personalize the provided Docusaurus template and turn it into my own learning journal and portfolio. The website contains my portfolio and documentation pages for selected projects of the course.
 
 ### Site Configuration
 
@@ -106,7 +106,7 @@ I changed the navbar and footer as required:
 
 - The navbar shows the personalized site title.
 - The GitHub navbar item links to my repository.
-- The `Docs` footer column contains links to the tutorial and project overview.
+- The `Docs` footer column contains a link to the project overview.
 - The original `Community` footer column was removed.
 - The `More` footer column contains links to my repository and the original template.
 - The copyright text contains my name and the text `extended from the developer-akademie-starter`.

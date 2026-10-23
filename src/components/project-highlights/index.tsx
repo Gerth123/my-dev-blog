@@ -155,8 +155,8 @@ export default function ProjectHighlights(): ReactNode {
 
         <div className={styles.mobileMore}>
           <p>
-            Besides these highlights I documented every project of my DevSecOps course, from
-            server setup to container deployments.
+            Besides these highlights I worked on many more projects in my DevSecOps course,
+            from Docker setups to automated deployments.
           </p>
           <Link className={styles.more} to={MORE_PROJECTS_PATH}>
             {cornerArrow}

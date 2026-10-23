@@ -1,6 +1,6 @@
 # Robin Gerth | Developer Portfolio and Learning Journal
 
-A personal portfolio built with React and TypeScript on top of Docusaurus, combined with a learning journal that documents every project of my DevSecOps course. Every push to `main` is type checked, built and deployed to GitHub Pages automatically.
+A personal portfolio built with React and TypeScript on top of Docusaurus, combined with a learning journal that documents selected projects of my DevSecOps course. Every push to `main` is type checked, built and deployed to GitHub Pages automatically.
 
 **Live site:** [gerth123.github.io/my-dev-blog](https://gerth123.github.io/my-dev-blog/)
 
@@ -66,7 +66,7 @@ A personal portfolio built with React and TypeScript on top of Docusaurus, combi
 This repository contains my developer portfolio and my learning journal in one Docusaurus site.
 
 - **Portfolio:** The start page is a custom React page with the sections Header, Hero, My Skills, My Project Highlights, Contact and Footer. Every section is its own typed React component, styled with CSS Modules and implemented according to the Figma design provided by Developer Akademie.
-- **Learning journal:** The `docs/` folder contains guides and a detailed documentation page for every project of the DevSecOps course. The portfolio links to these pages, so visitors can go from a project highlight straight to its documentation.
+- **Learning journal:** The `docs/` folder contains a detailed documentation page for selected projects of the DevSecOps course. The portfolio links to these pages, so visitors can go from a project highlight straight to its documentation.
 - **Automated delivery:** A GitHub Actions workflow type checks, builds and deploys the site to GitHub Pages on every push to `main`.
 
 ## Usage
