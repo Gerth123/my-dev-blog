@@ -1,0 +1,267 @@
+.highlights {
+  padding: 80px;
+  background-color: var(--portfolio-blue);
+}
+
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.heading {
+  margin: 0 0 48px;
+  color: var(--portfolio-white);
+  font-size: 48px;
+  font-weight: 700;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  align-items: start;
+  gap: 32px;
+}
+
+.list ol {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0 0 16px;
+  padding-left: 20px;
+}
+
+.item {
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.item:hover,
+.item:focus-visible {
+  text-decoration: underline;
+}
+
+.activeItem {
+  color: var(--portfolio-dark);
+}
+
+.more,
+.more:hover {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--portfolio-white);
+  text-decoration: none;
+}
+
+.more span {
+  text-decoration: underline;
+}
+
+.more:hover span,
+.more:focus-visible span {
+  font-weight: 700;
+}
+
+.card {
+  display: none;
+  grid-template-columns: 240px minmax(0, 1fr);
+  grid-template-areas:
+    'header header'
+    'image description'
+    'image buttons';
+  gap: 16px 24px;
+  padding: 24px;
+  border-radius: 16px;
+  background-color: var(--portfolio-card);
+}
+
+.activeCard {
+  display: grid;
+}
+
+.cardHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  grid-area: header;
+}
+
+.title {
+  margin: 0;
+  color: var(--portfolio-white);
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.number {
+  display: none;
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px 2px 4px;
+  border-radius: 4px;
+  background-color: var(--portfolio-white);
+  color: var(--portfolio-dark);
+  font-size: 16px;
+}
+
+.badgeIcon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.image {
+  grid-area: image;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.description {
+  grid-area: description;
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  align-self: end;
+  gap: 12px;
+  grid-area: buttons;
+}
+
+.docsButton,
+.githubButton {
+  padding: 6px 16px;
+  border-radius: 999px;
+  color: var(--portfolio-white);
+  font-size: 16px;
+  text-decoration: none;
+}
+
+.docsButton {
+  border: 1px solid var(--portfolio-blue);
+  background-color: var(--portfolio-blue);
+}
+
+.githubButton {
+  border: 1px solid var(--portfolio-white);
+}
+
+.docsButton:hover,
+.docsButton:focus-visible {
+  border-color: #4d94ff;
+  background-color: #4d94ff;
+  color: var(--portfolio-white);
+  text-decoration: none;
+}
+
+.githubButton:hover,
+.githubButton:focus-visible {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: var(--portfolio-white);
+  text-decoration: none;
+}
+
+.mobileMore {
+  display: none;
+}
+
+@media (max-width: 1100px) {
+  .card {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      'header'
+      'image'
+      'description'
+      'buttons';
+  }
+}
+
+@media (max-width: 768px) {
+  .highlights {
+    padding: 48px 16px;
+  }
+
+  .heading {
+    margin-bottom: 24px;
+    font-size: 32px;
+  }
+
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .list {
+    display: none;
+  }
+
+  .cards {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .card {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'header'
+      'image'
+      'description'
+      'buttons';
+    padding: 16px;
+  }
+
+  .cardHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .number {
+    display: inline;
+  }
+
+  .buttons {
+    justify-content: space-between;
+  }
+
+  .mobileMore {
+    display: block;
+    margin-top: 24px;
+    text-align: center;
+  }
+
+  .mobileMore p {
+    margin: 0 0 16px;
+    text-align: left;
+  }
+}
