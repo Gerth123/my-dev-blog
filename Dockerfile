@@ -2,7 +2,6 @@ FROM node:20.16-alpine AS builder
 
 WORKDIR /app
 
-ARG BLOG_ENABLED=false
 ARG DEPLOYMENT_URL="https://gerth123.github.io"
 ARG DEPLOYMENT_BRANCH="main"
 ARG GITHUB_ORG="Gerth123"

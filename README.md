@@ -17,7 +17,7 @@ A personal portfolio built with React and TypeScript on top of Docusaurus, combi
   - [Deploy to GitHub Pages](#deploy-to-github-pages)
   - [Deploy with Docker and NGINX](#deploy-with-docker-and-nginx)
   - [Customize the Portfolio](#customize-the-portfolio)
-  - [Add Documentation and Blog Posts](#add-documentation-and-blog-posts)
+  - [Add Documentation](#add-documentation)
 - [Features](#features)
 - [Portfolio Components](#portfolio-components)
 - [Environment Variables](#environment-variables)
@@ -140,7 +140,7 @@ The `Dockerfile` builds the site in a Node container and serves the result with 
 
 3. Open `http://localhost:8080` in a browser.
 
-The `.env` file is excluded from the Docker build context, so the site is built with the base path `/` and runs at the root of the server. A step by step guide is available in [docs/guides/deploy-docusaurus-with-docker-and-nginx.md](./docs/guides/deploy-docusaurus-with-docker-and-nginx.md).
+The `.env` file is excluded from the Docker build context, so the site is built with the base path `/` and runs at the root of the server.
 
 ### Customize the Portfolio
 
@@ -156,6 +156,9 @@ All portfolio content lives in typed data structures, so most changes do not req
 | Legal notice link | Constant at the top of `src/components/footer/index.tsx` |
 | Colors and font | Design tokens at the end of `src/css/custom.css` |
 | Page title and meta description | `src/pages/index.tsx` |
+| Site name and tagline of the documentation | `title` and `tagline` in `docusaurus.config.ts` |
+| Favicon | Replace `static/img/favicon.ico` |
+| Preview image for social media | Replace `static/img/social-card.jpg` (1200 x 630 pixels) |
 
 To add a project highlight:
 
@@ -166,10 +169,9 @@ To add a project highlight:
 
 Because every array is typed with a TypeScript interface, a missing or misspelled field is reported by `npm run typecheck` and by the pipeline.
 
-### Add Documentation and Blog Posts
+### Add Documentation
 
-- **Documentation:** Add a Markdown file to `docs/`. The sidebar is generated automatically, the order and labels of folders are controlled by `_category_` files.
-- **Blog posts:** Add a Markdown file to `blog/` and set `BLOG_ENABLED=true` in your `.env` to show the blog in the navigation.
+Add a Markdown file to `docs/projects/`. The sidebar is generated automatically, the order and labels of folders are controlled by `_category_` files. New pages appear in the project overview without further configuration.
 
 ## Features
 
@@ -206,7 +208,6 @@ Every section is a React component in its own folder under `src/components/`, wi
 | `GITHUB_PROJECT` | Name of the repository | `my-dev-blog` |
 | `GIT_REPOSITORY_URL` | Repository URL used for the GitHub links and the "edit this page" links | `https://github.com/Gerth123/my-dev-blog` |
 | `TEMPLATE_REPOSITORY_URL` | URL of the original template, linked in the footer of the docs | `https://github.com/Developer-Akademie-DevSecOpsKurs/dev-blog-template` |
-| `BLOG_ENABLED` | Shows the blog when set to `true`, not set by default | `true` |
 
 ## CI/CD
 
@@ -223,12 +224,11 @@ The workflows are located in `.github/workflows/`.
 
 | File or folder | Description |
 |---|---|
-| `blog/` | Blog posts and the author and tag definitions used by the blog |
-| `docs/` | Guides and project documentation, rendered as the docs section of the site |
+| `docs/` | Project documentation, rendered as the Projects section of the site |
 | `src/components/` | React components of the portfolio and the documentation |
 | `src/css/custom.css` | Global styles and the design tokens of the portfolio |
 | `src/pages/index.tsx` | Portfolio start page that composes all sections |
-| `static/img/` | Images and icons, served without processing |
+| `static/img/` | Images, icons, favicon and social media preview image, served without processing |
 | `.dockerignore` | Files excluded from the Docker build context, including `node_modules` and `.env` |
 | `.gitignore` | Files excluded from Git, including `node_modules`, `build` and `.env` |
 | `babel.config.js` | Babel configuration required by Docusaurus |

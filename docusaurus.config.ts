@@ -5,7 +5,6 @@ import {config as dotenvconfig}  from "dotenv";
 
 dotenvconfig();
 
-const blogEnabled = Boolean(process.env.BLOG_ENABLED === 'true')
 const gitRepositoryUrl =
   process.env.GIT_REPOSITORY_URL ??
   'https://github.com/Gerth123/my-dev-blog';
@@ -15,8 +14,8 @@ const templateRepositoryUrl =
   'https://github.com/Developer-Akademie-DevSecOpsKurs/dev-blog-template';
 
 const config: Config = {
-  title: 'Robins Dev Blog',
-  tagline: 'Robin Gerth - Software Engineer, DevOps, Cloud, Open Source',
+  title: 'Robin Gerth',
+  tagline: 'Full Stack Developer | DevSecOps',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
@@ -54,23 +53,7 @@ const config: Config = {
           editUrl:
             gitRepositoryUrl
         },
-        blog: blogEnabled ? 
-          {
-            showReadingTime: true,
-            feedOptions: {
-              type: ['rss', 'atom'],
-              xslt: true,
-            },
-            // Please change this to your repo.
-            // Remove this to remove the "edit this page" links.
-            editUrl:
-              gitRepositoryUrl,
-            // Useful options to enforce blogging best practices
-            onInlineTags: 'warn',
-            onInlineAuthors: 'warn',
-            onUntruncatedBlogPosts: 'warn',
-          }
-          : false,
+        blog: false,
         theme: {
           customCss: './src/css/custom.css',
         },
@@ -79,22 +62,16 @@ const config: Config = {
   ],
 
   themeConfig: {
-    // Replace with your project's social card
-    image: 'img/docusaurus-social-card.jpg',
+    image: 'img/social-card.jpg',
     navbar: {
-      title: 'Robins Dev Blog',
-      logo: {
-        alt: 'My Site Logo',
-        src: 'img/logo.svg',
-      },
+      title: 'Robin Gerth',
       items: [
         {
           type: 'docSidebar',
           sidebarId: 'tutorialSidebar',
           position: 'left',
-          label: 'Docs',
+          label: 'Projects',
         },
-        ...(blogEnabled ? [{to: '/blog', label: 'Blog', position: 'left' as const}] : []),
         {
           href: gitRepositoryUrl,
           label: 'Github',
@@ -119,6 +96,10 @@ const config: Config = {
           title: 'More',
           items: [
             {
+              label: 'Website',
+              href: 'https://robin-gerth.de',
+            },
+            {
               label: 'GitHub',
               href: gitRepositoryUrl,
             },
@@ -126,7 +107,6 @@ const config: Config = {
               label: 'Template',
               href: templateRepositoryUrl,
             },
-            ...(blogEnabled ? [{label: 'Blog', to: '/blog'}] : []),
           ],
         },
       ],
