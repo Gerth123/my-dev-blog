@@ -35,7 +35,7 @@ const projects: Project[] = [
     githubUrl: 'https://github.com/Gerth123/truck-signs-api/tree/feature/truck-signs-api-v2',
   },
   {
-    title: 'Juice Shop Meister',
+    title: 'Juice Shop Master',
     image: 'juice-shop-meister.jpg',
     technologies: ['IT Security', 'Container', 'Shell scripting'],
     description:
@@ -44,7 +44,7 @@ const projects: Project[] = [
     githubUrl: 'https://github.com/Gerth123/my-dev-blog/tree/main/docs/projects/juice-shop-master',
   },
   {
-    title: 'V-Server Setup',
+    title: 'VServer Setup',
     image: 'v-server-setup.jpg',
     technologies: ['Shell scripting', 'IT Security'],
     description:
